@@ -4,6 +4,7 @@ import json
 import requests
 from discord import Embed, File
 from pdf_jokes_generator import generate
+from pdf_to_jpeg import generate_jpeg
 
 
 greet_words = ["hi", "hello", "hola", "good morning", "good evening", "bonjour", "ciao", "olá",
@@ -42,12 +43,17 @@ class MyClient(discord.Client):
                 embed_help = Embed(color=0xe74c3c, title="General Commands")
                 embed_help.add_field(name="/help", value="displays all the available commands", inline=False)
                 embed_help.add_field(name="/joke", value="gives you a random programing joke", inline=False)
-                embed_help.add_field(name="/10jokes", value="gives you 10 jokes written in a pdf", inline=False)
+                embed_help.add_field(name="/10jokespdf", value="gives you 10 jokes written in a pdf", inline=False)
+                embed_help.add_field(name="/10jokesjpeg", value="gives you 10 jokes written in a jpeg", inline=False)
                 await message.channel.send(embed=embed_help)
 
-        if message.content.startswith('/10jokes'):
+        if message.content.startswith('/10jokespdf'):
             generate()
-            await message.channel.send(file=File('E:\Discord Bot\Python_Jokes_Bot\Jokes_PDF\jokes.pdf'))
+            await message.channel.send(file=File('E:\Discord Bot\Python_Jokes_Bot\Jokes_PDF_JPEG\jokes.pdf'))
+
+        if message.content.startswith('/10jokesjpeg'):
+            generate_jpeg()
+            await message.channel.send(file=File('E:\Discord Bot\Python_Jokes_Bot\Jokes_PDF_JPEG\jokes.jpeg'))
 
 
     async def on_member_join(member):
@@ -58,6 +64,7 @@ class MyClient(discord.Client):
             embed_help.add_field(name="/help", value="displays all the available commands", inline=False)
             embed_help.add_field(name="/joke", value="gives you a random programing joke", inline=False)
             embed_help.add_field(name="/10jokes", value="gives you 10 jokes written in a pdf", inline=False)
+            embed_help.add_field(name="/10jokesjpeg", value="gives you 10 jokes written in a jpeg", inline=False)
             await guild.system_channel.send(to_send, embed=embed_help)
 
 

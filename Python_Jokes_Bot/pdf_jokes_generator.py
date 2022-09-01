@@ -7,7 +7,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 import requests
 import json
 
-__OUT_DIR_NAME = "Jokes_PDF"
+__OUT_DIR_NAME = "Jokes_PDF_JPEG"
 __OUT_DIR = pathlib.Path(__file__).parent.joinpath(__OUT_DIR_NAME)
 
 FILES_DIR = pathlib.Path(__file__).parent.joinpath("files")
