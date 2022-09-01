@@ -2,9 +2,12 @@ import discord
 from disctoken import token
 import json
 import requests
-from discord import Embed
+from discord import Embed, File
+from pdf_jokes_generator import generate
 
-greet_words = ["Hi", "hi", "Hello", "hello"]
+
+greet_words = ["hi", "hello", "hola", "good morning", "good evening", "bonjour", "ciao", "olá",
+            "kia ora", "γεια", "zdravo", "privet", "nǐ hǎo", "namaste", "kon'nichiwa", "merhaba", "salut", "buna"]
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -17,8 +20,8 @@ class MyClient(discord.Client):
             return
 
         for text in greet_words:
-            if message.content.startswith(text):
-                await message.reply(f"Hello! {message.author.display_name}", mention_author=True)
+            if message.content.lower().startswith(text):
+                await message.reply(f"{text.capitalize()}! {message.author.display_name}", mention_author=True)
 
         if message.content.startswith('/joke'):
 
@@ -39,10 +42,13 @@ class MyClient(discord.Client):
                 embed_help = Embed(color=0xe74c3c, title="General Commands")
                 embed_help.add_field(name="/help", value="displays all the available commands", inline=False)
                 embed_help.add_field(name="/joke", value="gives you a random programing joke", inline=False)
+                embed_help.add_field(name="/10jokes", value="gives you 10 jokes written in a pdf", inline=False)
                 await message.channel.send(embed=embed_help)
-            #     return embed
-            # help_command = await get_help()
-            # await message.channel.send(help_command)
+
+        if message.content.startswith('/10jokes'):
+            generate()
+            await message.channel.send(file=File('E:\Discord Bot\Python_Jokes_Bot\Jokes_PDF\jokes.pdf'))
+
 
     async def on_member_join(member):
         guild = member.guild
@@ -51,6 +57,7 @@ class MyClient(discord.Client):
             embed_help = Embed(color=0xe74c3c, title="General Commands")
             embed_help.add_field(name="/help", value="displays all the available commands", inline=False)
             embed_help.add_field(name="/joke", value="gives you a random programing joke", inline=False)
+            embed_help.add_field(name="/10jokes", value="gives you 10 jokes written in a pdf", inline=False)
             await guild.system_channel.send(to_send, embed=embed_help)
 
 
